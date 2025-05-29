@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2 class="text-center">Dự báo giá cổ phiếu</h2>
+<div class="form-container">
+  <div class="form-group">
+    <label for="san">Chọn sàn:</label>
+    <select id="san" class="form-control">
+      <option value="">-- Chọn sàn --</option>
+      <option value="nasdaq">NASDAQ</option>
+      <option value="sp500">S&P 500</option>
+      <option value="nyse">NYSE</option>
+      <option value="forbes2000">Forbes 2000</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="ma">Chọn mã cổ phiếu:</label>
+    <select id="ma" class="form-control">
+      <option value="">-- Chọn mã --</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="so_ngay">Số ngày dự đoán:</label>
+    <input type="number" id="so_ngay" class="form-control" value="30" min="1">
+  </div>
+
+  <button id="btn_du_bao" class="btn btn-primary btn-block">Phân tích và Dự đoán</button>
+</div>
+<script src="/static/js/script.js"></script>
+{% endblock %}

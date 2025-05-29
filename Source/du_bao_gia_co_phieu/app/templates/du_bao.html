@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Dự báo giá cổ phiếu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    .tab-content {
+      padding-top: 20px;
+    }
+    .plot-box {
+      width: 100%;
+      height: 500px;
+    }
+  </style>
+</head>
+<body class="p-4">
+  <h2 class="mb-4">Phân tích và dự báo cổ phiếu: {{ ma }} ({{ san }})</h2>
+
+  <!-- Tabs -->
+  <ul class="nav nav-tabs" id="bieuDoTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="tab-nen" data-bs-toggle="tab" data-bs-target="#bieu-do-nen" type="button" role="tab">Biểu đồ nến</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab-dubao" data-bs-toggle="tab" data-bs-target="#bieu-do-du-bao" type="button" role="tab">Biểu đồ dự báo</button>
+    </li>
+  </ul>
+
+  <!-- Tab contents -->
+  <div class="tab-content mt-3">
+    <!-- Biểu đồ nến -->
+    <div class="tab-pane fade show active" id="bieu-do-nen" role="tabpanel">
+      <div id="bieu_do_nen" class="plot-box"></div>
+    </div>
+    <!-- Biểu đồ dự báo -->
+    <div class="tab-pane fade" id="bieu-do-du-bao" role="tabpanel">
+      <div id="bieu_do_du_bao" class="plot-box"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Biểu đồ nến
+    Plotly.newPlot('bieu_do_nen', [{
+      x: {{ ngay_lich_su | tojson }},
+      open: {{ open_gia | tojson }},
+      high: {{ high_gia | tojson }},
+      low: {{ low_gia | tojson }},
+      close: {{ close_gia | tojson }},
+      type: 'candlestick',
+      name: 'Nến',
+      increasing: { line: { color: 'green' } },
+      decreasing: { line: { color: 'red' } }
+    }], {
+      title: 'Biểu đồ nến lịch sử',
+      xaxis: { type: 'date', tickformat: '%m/%Y', hoverformat: '%d/%m/%Y', title: 'Ngày' },
+      yaxis: { title: 'Giá' },
+      margin: { t: 40, r: 30, b: 60, l: 60 }
+    });
+
+    // Biểu đồ dự báo
+    Plotly.newPlot('bieu_do_du_bao', [
+      {
+        x: {{ ngay_thuc_te | tojson }},
+        y: {{ gia_thuc_te | tojson }},
+        mode: 'lines',
+        name: 'Giá thực tế',
+        line: { color: 'blue' }
+      },
+      {
+        x: {{ ngay_du_bao | tojson }},
+        y: {{ gia_du_bao | tojson }},
+        mode: 'lines+markers',
+        name: 'Giá dự báo',
+        line: { color: 'orange', dash: 'dot' }
+      }
+    ], {
+      title: 'Biểu đồ dự báo giá cổ phiếu',
+      xaxis: {
+        title: 'Thời gian',
+        type: 'date',
+        tickformat: '%m/%Y',
+        hoverformat: '%d/%m/%Y',
+        tickangle: -30
+      },
+      yaxis: { title: 'Giá' },
+      hovermode: 'x unified',
+      margin: { t: 40, r: 30, b: 80, l: 60 }
+    });
+  </script>
+</body>
+</html>
